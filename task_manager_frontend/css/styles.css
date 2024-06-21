@@ -1,0 +1,36 @@
+.container-fluid {
+  background: linear-gradient(to bottom, #e6f7ff, #ffffff);
+}
+
+.card-header h5 {
+  margin-top: 0.5rem;
+}
+
+.table {
+  #title {
+    width: 20%;
+    padding-right: 1rem;
+  }
+
+  #description {
+    width: 40%;
+    padding-right: 1rem;
+  }
+
+  #actions {
+    width: 105px;
+
+    button:nth-child(1) {
+      margin-right: 10px;
+    }
+  }
+}
+
+#notification {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 9999;
+}
