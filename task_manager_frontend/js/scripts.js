@@ -9,11 +9,16 @@ $(document).ready(function () {
             url: '../../../Task Manager/task_manager_backend/controllers/read.php',
             type: 'GET',
             success: function (response) {
-                $('#taskList').html(response);
-                attachSeeMoreEvent();
+                if (response.status === 'error') {
+                    $('#taskList').html('<div class="alert alert-danger d-flex align-items-center" role="alert"><i class="bi bi-exclamation-triangle-fill"></i>&nbsp;<div>' + response.message + '</div></div>');
+                    return;
+                } else {
+                    $('#taskList').html(response);
+                    attachSeeMoreEvent();
+                }
             },
             error: function () {
-                showNotification('Failed to fetch tasks. Please try again.', 'danger');
+                $('#taskList').html('<div class="alert alert-danger d-flex align-items-center" role="alert"><i class="bi bi-exclamation-triangle-fill"></i>&nbsp;<div>Failed to fetch tasks. Please try again.</div></div>');
             }
         });
     }
@@ -52,11 +57,17 @@ $(document).ready(function () {
             url: '../../../Task Manager/task_manager_backend/controllers/create.php',
             type: 'POST',
             data: taskData,
-            success: function () {
-                showNotification('Task added successfully', 'success');
-                $('#addTaskForm')[0].reset();
-                $('#addModal').modal('hide');
-                fetchTasks();
+            success: function (response) {
+                if (response.status === 'success') {
+                    showNotification(response.message, 'success');
+                    $('#addTaskForm')[0].reset();
+                    $('#addModal').modal('hide');
+                    fetchTasks();
+                } else if (response.status === 'error') {
+                    showNotification(response.message, 'danger');
+                } else {
+                    showNotification('Failed to add task. Please try again.', 'danger');
+                }
             },
             error: function () {
                 showNotification('Failed to add task. Please try again.', 'danger');
@@ -73,12 +84,17 @@ $(document).ready(function () {
             type: 'GET',
             data: { id: taskIdToUpdate },
             success: function (response) {
-                let task = JSON.parse(response);
-                $('#updateUsername').val(task.username);
-                $('#updateTitle').val(task.title);
-                $('#updateDescription').val(task.description);
-                $('#updateDate').val(task.date);
-                $('#updateModal').modal('show');
+                if (response.status === 'error') {
+                    showNotification('Failed to fetch task details. Please try again.', 'danger');
+                    taskIdToUpdate = null;
+                    return;
+                } else {
+                    $('#updateUsername').val(response.username);
+                    $('#updateTitle').val(response.title);
+                    $('#updateDescription').val(response.description);
+                    $('#updateDate').val(response.date);
+                    $('#updateModal').modal('show');
+                }
             },
             error: function () {
                 showNotification('Failed to fetch task details. Please try again.', 'danger');
@@ -101,12 +117,18 @@ $(document).ready(function () {
             url: '../../../Task Manager/task_manager_backend/controllers/update.php',
             type: 'POST',
             data: taskData,
-            success: function () {
-                showNotification('Task updated successfully', 'success');
-                $('#updateTaskForm')[0].reset();
-                $('#updateModal').modal('hide');
-                taskIdToUpdate = null;
-                fetchTasks();
+            success: function (response) {
+                if (response.status === 'success') {
+                    showNotification(response.message, 'success');
+                    $('#updateTaskForm')[0].reset();
+                    $('#updateModal').modal('hide');
+                    taskIdToUpdate = null;
+                    fetchTasks();
+                } else if (response.status === 'error') {
+                    showNotification(response.message, 'danger');
+                } else {
+                    showNotification('Failed to update task. Please try again.', 'danger');
+                }
             },
             error: function () {
                 showNotification('Failed to update task. Please try again.', 'danger');
@@ -127,11 +149,21 @@ $(document).ready(function () {
                 url: '../../../Task Manager/task_manager_backend/controllers/delete.php',
                 type: 'POST',
                 data: { id: taskIdToDelete },
-                success: function () {
-                    showNotification('Task deleted successfully', 'success');
-                    $('#deleteModal').modal('hide');
-                    taskIdToDelete = null;
-                    fetchTasks();
+                success: function (response) {
+                    if (response.status === 'success') {
+                        showNotification(response.message, 'success');
+                        $('#deleteModal').modal('hide');
+                        taskIdToDelete = null;
+                        fetchTasks();
+                    } else if (response.status === 'error') {
+                        showNotification(response.message, 'danger');
+                        $('#deleteModal').modal('hide');
+                        taskIdToDelete = null;
+                    } else {
+                        showNotification('Failed to delete task. Please try again.', 'danger');
+                        $('#deleteModal').modal('hide');
+                        taskIdToDelete = null;
+                    }
                 },
                 error: function () {
                     showNotification('Failed to delete task. Please try again.', 'danger');

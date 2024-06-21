@@ -2,14 +2,37 @@
 
 include '../models/taskModel.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
+try {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (!isset($_POST['id'])) {
+            throw new Exception('Failed to delete task. Please try again.');
+            exit;
+        }
 
-    try {
+        $id = $_POST['id'];
+
         $taskModel = new TaskModel($pdo);
         $taskModel->deleteTask($id);
-        echo json_encode(["message" => "Task deleted successfully."]);
-    } catch (Exception $e) {
-        echo json_encode(["error" => "Failed to delete task. Please try again."]);
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Task deleted successfully.'
+        ];
+
+    } else {
+        throw new Exception('Invalid request method. Please try again.');
     }
+} catch (Exception $e) {
+    $response = [
+        'status' => 'error',
+        'message' => $e->getMessage()
+    ];
+} catch (PDOException $e) {
+    $response = [
+        'status' => 'error',
+        'message' => 'Failed to delete task. Please try again.'
+    ];
+} finally {
+    header('Content-type: application/json');
+    echo json_encode($response);
 }
