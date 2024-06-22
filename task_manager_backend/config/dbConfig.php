@@ -11,7 +11,7 @@ try {
 } catch (PDOException $e) {
     // error_log("Database connection error: " . $e->getMessage(), 0);
     // http_response_code(500);
-    include '../views/dbError.html';
+    include '../views/dbError.php';
     exit();
 }
 ?>
