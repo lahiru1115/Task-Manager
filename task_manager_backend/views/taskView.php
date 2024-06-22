@@ -14,8 +14,8 @@
                 <tr>
                     <td><?php echo htmlspecialchars($task['username']); ?></td>
                     <td id="title">
-                        <?php if (strlen($task['title']) > 45) : ?>
-                            <span class="short-text"><?php echo htmlspecialchars(substr($task['title'], 0, 40)) . '...'; ?></span>
+                        <?php if (strlen($task['title']) > 60) : ?>
+                            <span class="short-text"><?php echo htmlspecialchars(substr($task['title'], 0, 60)) . '...'; ?></span>
                             <span class="full-text" style="display: none;"><?php echo htmlspecialchars($task['title']); ?></span>
                             <a href="#" class="see-more">See more</a>
                         <?php else : ?>
@@ -23,8 +23,8 @@
                         <?php endif; ?>
                     </td>
                     <td id="description">
-                        <?php if (strlen($task['description']) > 100) : ?>
-                            <span class="short-text"><?php echo htmlspecialchars(substr($task['description'], 0, 100)) . '...'; ?></span>
+                        <?php if (strlen($task['description']) > 120) : ?>
+                            <span class="short-text"><?php echo htmlspecialchars(substr($task['description'], 0, 120)) . '...'; ?></span>
                             <span class="full-text" style="display: none;"><?php echo htmlspecialchars($task['description']); ?></span>
                             <a href="#" class="see-more">See more</a>
                         <?php else : ?>

@@ -25,8 +25,20 @@ class TaskModel
     public function getAllTasks()
     {
         try {
-            $sql = "SELECT * FROM tasks";
+            $sql = "SELECT * FROM tasks ORDER BY date DESC";
             $stmt = $this->pdo->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception('Failed to get tasks. Please try again.');
+        }
+    }
+
+    public function getTodaysTasks($date)
+    {
+        try {
+            $sql = "SELECT * FROM tasks WHERE date = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$date]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception('Failed to get tasks. Please try again.');

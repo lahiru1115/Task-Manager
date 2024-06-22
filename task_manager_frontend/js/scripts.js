@@ -1,7 +1,28 @@
 $(document).ready(function () {
 
-    // Fetch tasks on page load
+    // Fetch all tasks on page load
     fetchTasks();
+
+    // Fetch today's tasks on page load
+    fetchTodaysTasks();
+
+    // Attach see more event using delegation
+    $(document).on('click', '.see-more', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $shortText = $this.siblings('.short-text');
+        var $fullText = $this.siblings('.full-text');
+
+        if ($fullText.is(':visible')) {
+            $fullText.hide();
+            $shortText.show();
+            $this.text('See more');
+        } else {
+            $fullText.show();
+            $shortText.hide();
+            $this.text('See less');
+        }
+    });
 
     // Fetch tasks from the database
     function fetchTasks() {
@@ -14,7 +35,6 @@ $(document).ready(function () {
                     return;
                 } else {
                     $('#taskList').html(response);
-                    attachSeeMoreEvent();
                 }
             },
             error: function () {
@@ -23,22 +43,28 @@ $(document).ready(function () {
         });
     }
 
-    // Attach see more event to the see more button
-    function attachSeeMoreEvent() {
-        $('.see-more').on('click', function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var $shortText = $this.siblings('.short-text');
-            var $fullText = $this.siblings('.full-text');
+    // Fetch today's tasks
+    function fetchTodaysTasks() {
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let dd = String(today.getDate()).padStart(2, '0');
+        today = yyyy + '-' + mm + '-' + dd;
 
-            if ($fullText.is(':visible')) {
-                $fullText.hide();
-                $shortText.show();
-                $this.text('See more');
-            } else {
-                $fullText.show();
-                $shortText.hide();
-                $this.text('See less');
+        $.ajax({
+            url: '../../../Task Manager/task_manager_backend/controllers/read.php',
+            type: 'GET',
+            data: { date: today },
+            success: function (response) {
+                if (response.status === 'error') {
+                    $('#todaysTasks').html('<div class="alert alert-danger d-flex align-items-center" role="alert"><i class="bi bi-exclamation-triangle-fill"></i>&nbsp;<div>' + response.message + '</div></div>');
+                    return;
+                } else {
+                    $('#todaysTasks').html(response);
+                }
+            },
+            error: function () {
+                $('#todaysTasks').html('<div class="alert alert-danger d-flex align-items-center" role="alert"><i class="bi bi-exclamation-triangle-fill"></i>&nbsp;<div>Failed to fetch tasks. Please try again.</div></div>');
             }
         });
     }
@@ -63,6 +89,7 @@ $(document).ready(function () {
                     $('#addTaskForm')[0].reset();
                     $('#addModal').modal('hide');
                     fetchTasks();
+                    fetchTodaysTasks();
                 } else if (response.status === 'error') {
                     showNotification(response.message, 'danger');
                 } else {
@@ -124,6 +151,7 @@ $(document).ready(function () {
                     $('#updateModal').modal('hide');
                     taskIdToUpdate = null;
                     fetchTasks();
+                    fetchTodaysTasks();
                 } else if (response.status === 'error') {
                     showNotification(response.message, 'danger');
                 } else {
@@ -155,6 +183,7 @@ $(document).ready(function () {
                         $('#deleteModal').modal('hide');
                         taskIdToDelete = null;
                         fetchTasks();
+                        fetchTodaysTasks();
                     } else if (response.status === 'error') {
                         showNotification(response.message, 'danger');
                         $('#deleteModal').modal('hide');

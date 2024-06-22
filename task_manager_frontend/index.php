@@ -25,6 +25,16 @@
       <div id="notification" class="alert" style="display: none"></div>
 
       <div class="card mt-4">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <h5>Today's Tasks</h5>
+          <div class="text-muted"><?php echo date('l, F j, Y'); ?></div>
+        </div>
+        <div class="card-body" id="todaysTasks">
+          <!-- Tasks will be dynamically inserted here -->
+        </div>
+      </div>
+
+      <div class="card mt-4 mb-5">
         <div class="card-header">
           <h5>Task List</h5>
         </div>

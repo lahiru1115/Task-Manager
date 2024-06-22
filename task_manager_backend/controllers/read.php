@@ -11,6 +11,10 @@ try {
             $task = $taskModel->getTaskById($id);
             header('Content-type: application/json');
             echo json_encode($task);
+        } else if (isset($_GET['date'])) {
+            $date = $_GET['date'];
+            $tasks = $taskModel->getTodaysTasks($date);
+            include '../views/todaysTasks.php';
         } else {
             $tasks = $taskModel->getAllTasks();
             include '../views/taskView.php';
