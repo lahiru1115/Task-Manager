@@ -3,7 +3,7 @@
 $host = 'localhost';
 $username = 'root';
 $password = '';
-$dbname = 'task_manager';
+$dbname = 'task-manager';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

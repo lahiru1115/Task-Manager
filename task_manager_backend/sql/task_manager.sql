@@ -18,10 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `task_manager`
+-- Database: `task-manager`
 --
-CREATE DATABASE IF NOT EXISTS `task_manager` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `task_manager`;
+CREATE DATABASE IF NOT EXISTS `task-manager` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `task-manager`;
 
 -- --------------------------------------------------------
 

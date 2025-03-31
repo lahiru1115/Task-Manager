@@ -27,7 +27,7 @@ $(document).ready(function () {
     // Fetch tasks from the database
     function fetchTasks() {
         $.ajax({
-            url: '../../../Task Manager/task_manager_backend/controllers/read.php',
+            url: '../../../Task-Manager/task_manager_backend/controllers/read.php',
             type: 'GET',
             success: function (response) {
                 if (response.status === 'error') {
@@ -52,7 +52,7 @@ $(document).ready(function () {
         today = yyyy + '-' + mm + '-' + dd;
 
         $.ajax({
-            url: '../../../Task Manager/task_manager_backend/controllers/read.php',
+            url: '../../../Task-Manager/task_manager_backend/controllers/read.php',
             type: 'GET',
             data: { date: today },
             success: function (response) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: '../../../Task Manager/task_manager_backend/controllers/create.php',
+            url: '../../../Task-Manager/task_manager_backend/controllers/create.php',
             type: 'POST',
             data: taskData,
             success: function (response) {
@@ -107,7 +107,7 @@ $(document).ready(function () {
     $(document).on('click', '.update-btn', function () {
         taskIdToUpdate = $(this).data('id');
         $.ajax({
-            url: '../../../Task Manager/task_manager_backend/controllers/read.php',
+            url: '../../../Task-Manager/task_manager_backend/controllers/read.php',
             type: 'GET',
             data: { id: taskIdToUpdate },
             success: function (response) {
@@ -141,7 +141,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: '../../../Task Manager/task_manager_backend/controllers/update.php',
+            url: '../../../Task-Manager/task_manager_backend/controllers/update.php',
             type: 'POST',
             data: taskData,
             success: function (response) {
@@ -174,7 +174,7 @@ $(document).ready(function () {
     $('#confirmDelete').on('click', function () {
         if (taskIdToDelete) {
             $.ajax({
-                url: '../../../Task Manager/task_manager_backend/controllers/delete.php',
+                url: '../../../Task-Manager/task_manager_backend/controllers/delete.php',
                 type: 'POST',
                 data: { id: taskIdToDelete },
                 success: function (response) {
