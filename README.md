@@ -2,6 +2,16 @@
 
 A simple PHP and JavaScript-based Task Manager that allows users to create, update, delete, and view tasks. It follows an MVC (Model-View-Controller) architecture and uses AJAX for dynamic task management.
 
+## Table of Contents
+
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [File Structure](#file-structure)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [Contact](#contact)
+
 ## Features
 
 ✅ **Add Tasks** – Users can create new tasks with a title, description, and due date.</br>
